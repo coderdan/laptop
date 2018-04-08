@@ -70,14 +70,23 @@ update_shell() {
   sudo chsh -s "$shell_path" "$USER"
 }
 
+xcode() {
+  xcode-select --install
+}
+
+#fancy_echo "Installing Xcode developer tools"
+#trap "xcode" INT TERM EXIT
+
 case "$SHELL" in
   */zsh)
     if [ "$(which zsh)" != '/usr/local/bin/zsh' ] ; then
       update_shell
+      echo "Not updating to Zshell"
     fi
     ;;
   *)
-    update_shell
+    echo "Not updating to Zshell"
+    #update_shell
     ;;
 esac
 
@@ -109,47 +118,7 @@ fi
 
 fancy_echo "Updating Homebrew formulae ..."
 brew update --force # https://github.com/Homebrew/brew/issues/1151
-brew bundle --file=- <<EOF
-tap "thoughtbot/formulae"
-tap "homebrew/services"
-tap "universal-ctags/universal-ctags"
-tap "caskroom/cask"
-
-# Unix
-brew "universal-ctags", args: ["HEAD"]
-brew "git"
-brew "openssl"
-brew "rcm"
-brew "reattach-to-user-namespace"
-brew "the_silver_searcher"
-brew "tmux"
-brew "vim"
-brew "watchman"
-brew "zsh"
-
-# Heroku
-brew "heroku"
-brew "parity"
-
-# GitHub
-brew "hub"
-
-# Image manipulation
-brew "imagemagick"
-
-# Testing
-brew "qt@5.5" if MacOS::Xcode.installed?
-
-# Programming language prerequisites and package managers
-brew "libyaml" # should come after openssl
-brew "coreutils"
-brew "yarn"
-cask "gpg-suite"
-
-# Databases
-brew "postgres", restart_service: :changed
-brew "redis", restart_service: :changed
-EOF
+brew bundle --file=brew.rb
 
 if brew list | grep --silent "qt@5.5"; then
   fancy_echo "Symlink qmake binary to /usr/local/bin for Capybara Webkit..."
@@ -180,6 +149,8 @@ install_asdf_plugin() {
 source "$HOME/.asdf/asdf.sh"
 install_asdf_plugin "ruby" "https://github.com/asdf-vm/asdf-ruby.git"
 install_asdf_plugin "nodejs" "https://github.com/asdf-vm/asdf-nodejs.git"
+install_asdf_plugin "elixir" "https://github.com/asdf-vm/asdf-elixir.git"
+install_asdf_plugin "erlang" "https://github.com/asdf-vm/asdf-erlang.git"
 
 install_asdf_language() {
   local language="$1"
@@ -202,6 +173,12 @@ bundle config --global jobs $((number_of_cores - 1))
 fancy_echo "Installing latest Node..."
 bash "$HOME/.asdf/plugins/nodejs/bin/import-release-team-keyring"
 install_asdf_language "nodejs"
+
+fancy_echo "Installing latest Erlang..."
+install_asdf_language "erlang"
+
+fancy_echo "Installing latest Elixir..."
+install_asdf_language "elixir"
 
 if [ -f "$HOME/.laptop.local" ]; then
   fancy_echo "Running your customizations from ~/.laptop.local ..."

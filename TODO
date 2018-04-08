@@ -1,0 +1,21 @@
+Brew for totalspaces, dashlane etc
+Time machine settings so that we only backup user files
+See https://www.jamf.com/jamf-nation/discussions/18257/have-time-machine-backup-just-user-folder
+Dot files
+
+Mac system prefs? In the ~/Library folder
+Docker
+
+
+## Mac Setup
+
+eGPU
+Really good external monitor (maybe 2)
+Hengedock
+Port trunking to NAS
+- 2 USB-C to ethernet adapters
+- Correct switch? (check that it supports 802.3ad)
+- Thunderbolt hub (maybe, or daisychain)
+Larger, highspeed thunderbolt SSD
+Clean up Dropbox (especially photos)
+Yamaha HS5 speakers
