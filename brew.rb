@@ -16,6 +16,7 @@ brew "watchman"
 brew "zsh"
 brew "direnv"
 brew "pass"
+brew "fzf"
 
 # Heroku
 brew "heroku"
