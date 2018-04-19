@@ -17,6 +17,7 @@ brew "zsh"
 brew "direnv"
 brew "pass"
 brew "fzf"
+brew "wget"
 
 # Heroku
 brew "heroku"
